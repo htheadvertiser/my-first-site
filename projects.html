@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects | Hasan Alomari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b1220;
+    --navy-2:#111b2e;
+    --ink:#1b2436;
+    --paper:#f7f8fb;
+    --paper-2:#eef1f7;
+    --line:#e3e7f0;
+    --muted:#5b6478;
+    --accent:#2f6fed;
+    --accent-2:#12b3a8;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',Georgia,serif;
+    margin:0;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+
+  /* NAV */
+  nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(247,248,251,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:0 32px;
+    display:flex;align-items:center;justify-content:space-between;
+    height:68px;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-weight:600;font-size:19px;
+    display:flex;align-items:center;gap:10px;text-decoration:none;
+  }
+  .logo-mark{
+    width:32px;height:32px;border-radius:9px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-family:'Inter',sans-serif;font-weight:700;font-size:13px;
+  }
+  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500;color:var(--muted);}
+  .nav-links a{text-decoration:none;transition:color .15s;}
+  .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-toggle{
+    display:none;width:40px;height:40px;padding:0;margin-right:-8px;
+    background:none;border:0;cursor:pointer;
+    flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  }
+  .nav-toggle span{
+    display:block;width:22px;height:2px;border-radius:2px;background:var(--ink);
+    transition:transform .2s,opacity .2s;
+  }
+  .nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* PAGE HEADER */
+  .page-head{
+    background:var(--navy);color:#fff;padding:72px 0 64px;
+  }
+  .page-head .eyebrow{
+    font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--accent-2);margin-bottom:16px;display:block;
+  }
+  .page-head h1{font-size:44px;font-weight:600;color:#fff;}
+  .page-head p{
+    margin-top:18px;font-size:16.5px;line-height:1.7;color:rgba(255,255,255,0.65);max-width:620px;
+  }
+
+  /* PROJECTS */
+  .projects{padding:72px 0 96px;}
+  .project{
+    background:var(--white);border:1px solid var(--line);border-radius:16px;
+    padding:36px;margin-bottom:28px;
+  }
+  .project:last-child{margin-bottom:0;}
+  .project-num{
+    font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);
+  }
+  .project h2{font-size:26px;font-weight:600;color:var(--ink);margin-top:10px;line-height:1.25;}
+  .project-role{
+    display:inline-block;margin-top:14px;font-size:13px;font-weight:600;
+    padding:6px 12px;border-radius:99px;background:var(--paper-2);border:1px solid var(--line);color:var(--ink);
+  }
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:26px;
+  }
+  .stat{
+    background:var(--navy-2);border-radius:12px;padding:18px 20px;
+  }
+  .stat-num{font-family:'Fraunces',serif;font-size:26px;font-weight:600;color:#fff;line-height:1.1;}
+  .stat-label{font-size:12.5px;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.4;}
+  .project-body{margin-top:26px;}
+  .project-body h3{
+    font-family:'Inter',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--ink);margin:22px 0 10px;
+  }
+  .project-body h3:first-child{margin-top:0;}
+  .project-body p{font-size:15.5px;line-height:1.75;color:var(--muted);max-width:760px;}
+  .project-body ul{margin:0;padding-left:20px;max-width:760px;}
+  .project-body li{font-size:15px;line-height:1.7;color:var(--muted);margin-bottom:8px;}
+  .project-body li strong{color:var(--ink);font-weight:600;}
+  .pill-list{display:flex;flex-wrap:wrap;gap:9px;}
+  .pill{
+    font-size:13px;font-weight:500;padding:7px 13px;border-radius:9px;
+    background:var(--paper-2);border:1px solid var(--line);color:var(--ink);
+  }
+
+  .bottom-back{text-align:center;margin-top:48px;}
+  .btn{
+    display:inline-block;font-size:14.5px;font-weight:600;text-decoration:none;
+    padding:12px 22px;border-radius:10px;background:var(--accent);color:#fff;transition:background .15s;
+  }
+  .btn:hover{background:#2560d4;}
+
+  footer{
+    background:var(--navy);color:rgba(255,255,255,0.5);
+    padding:40px 0;text-align:center;font-size:13.5px;
+  }
+
+  @media (max-width:820px){
+    .nav-toggle{display:flex;}
+    .nav-links{
+      display:none;position:absolute;top:68px;left:0;right:0;
+      flex-direction:column;gap:0;
+      background:var(--paper);border-bottom:1px solid var(--line);
+      padding:8px 32px 16px;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);}
+    .nav-links a:last-child{border-bottom:0;}
+    .page-head{padding:52px 0 48px;}
+    .page-head h1{font-size:32px;}
+    .project{padding:26px 22px;}
+    .project h2{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="me.html"><span class="logo-mark">HA</span> Hasan Alomari</a>
+    <div class="nav-links" id="nav-links">
+      <a href="me.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="skills.html">Skills</a>
+      <a href="experience.html">Experience</a>
+      <a class="active" href="projects.html">Projects</a>
+      <a href="testimonials.html">Testimonials</a>
+    </div>
+    <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Selected Work</span>
+    <h1>Projects</h1>
+    <p>A closer look at campaigns I've run across lead generation, e-commerce and app growth, with the numbers behind each one.</p>
+  </div>
+</header>
+
+<main class="projects">
+  <div class="wrap">
+
+    <article class="project">
+      <span class="project-num">Project 1</span>
+      <h2>B2B Enterprise Lead Gen &amp; Lead Quality Optimization (Meta &amp; Google)</h2>
+      <span class="project-role">Digital Ads Expert for B2B Lead Gen</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">136</div><div class="stat-label">Total Meta leads</div></div>
+        <div class="stat"><div class="stat-num">21</div><div class="stat-label">Verified qualified leads</div></div>
+        <div class="stat"><div class="stat-num">33</div><div class="stat-label">Google Ads conversions</div></div>
+        <div class="stat"><div class="stat-num">$619</div><div class="stat-label">Google account CPA ($20.4K spend)</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Engineered high-ticket B2B lead acquisition for a software provider, optimizing CRM pipelines to solve low lead quality issues.</p>
+        <h3>Strategy &amp; execution</h3>
+        <ul>
+          <li><strong>Meta Conversion Leads Integration:</strong> Implemented Meta CAPI to train algorithms on CRM offline events, optimizing for qualified leads over raw form fills.</li>
+          <li><strong>Account-wide totals (snapshot):</strong> Meta generated 136 total leads, isolating 21 verified qualified leads. Google Ads generated 33 total conversions across $20.4K total spend ($619 account CPA).</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">Lead Generation</span>
+          <span class="pill">B2B Lead Generation</span>
+          <span class="pill">Social Media Lead Generation</span>
+          <span class="pill">Google Ads Account Management</span>
+          <span class="pill">Digital Marketing</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 2</span>
+      <h2>Full-Funnel Lead Generation &amp; Funnel Attribution (Meta &amp; Google)</h2>
+      <span class="project-role">Digital Ads Expert for B2C Lead Gen</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">175</div><div class="stat-label">Meta MQLs at $33.33 CPL</div></div>
+        <div class="stat"><div class="stat-num">64</div><div class="stat-label">Meta SQLs at $91.12 cost/SQL</div></div>
+        <div class="stat"><div class="stat-num">33</div><div class="stat-label">Google Search conversions</div></div>
+        <div class="stat"><div class="stat-num">&euro;47.70</div><div class="stat-label">Google Search CPA</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Built multi-channel acquisition architecture from scratch for a high-ticket international family travel platform, isolating funnel stages to optimize lead quality.</p>
+        <h3>Execution &amp; funnel setup</h3>
+        <ul>
+          <li><strong>Custom Data Layer &amp; GTM Tracking:</strong> Configured custom event tracking parameters to differentiate MQL and SQL form submissions across the user journey.</li>
+        </ul>
+        <h3>Performance metrics (snapshot)</h3>
+        <ul>
+          <li>Meta generated 175 MQLs ($33.33 CPL) and 64 SQLs ($91.12 cost/SQL) across $5.8K spend.</li>
+          <li>Google Search achieved 33 conversions at a &euro;47.70 CPA (&euro;1.49 avg CPC).</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">B2C Marketing</span>
+          <span class="pill">Lead Generation</span>
+          <span class="pill">Social Media Advertising</span>
+          <span class="pill">Search Engine Marketing</span>
+          <span class="pill">Digital Advertising</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 3</span>
+      <h2>Healthcare Marketplace Dual-Sided Lead Generation (Meta &amp; Google)</h2>
+      <span class="project-role">Digital Ads Expert for B2B &amp; B2C Lead Gen</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">39</div><div class="stat-label">Patient leads from Google at $14.49 CPA</div></div>
+        <div class="stat"><div class="stat-num">15.35%</div><div class="stat-label">Google conversion rate</div></div>
+        <div class="stat"><div class="stat-num">93</div><div class="stat-label">Patient leads from Meta at $16.85 CPL</div></div>
+        <div class="stat"><div class="stat-num">46</div><div class="stat-label">Provider leads at ~$11 CPL</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Scaled multi-channel acquisition from zero for a medical tourism marketplace, building initial tracking infrastructure to drive B2C international patient leads and B2B provider onboarding.</p>
+        <h3>Performance metrics (snapshot)</h3>
+        <ul>
+          <li><strong>B2C patient acquisition (Google Ads):</strong> Scaled cold search to 39 patient leads at a $14.49 CPA with a 15.35% conversion rate.</li>
+          <li><strong>B2C patient acquisition (Meta Ads):</strong> Generated 93 website leads at a $16.85 CPL ($1.5K spend).</li>
+          <li><strong>B2B provider onboarding (Meta Ads):</strong> Generated 46 provider leads targeting regional healthcare clinics at TL374 CPL (~$11 CPL).</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">Search Engine Marketing</span>
+          <span class="pill">Social Media Marketing</span>
+          <span class="pill">Lead Generation</span>
+          <span class="pill">B2B Lead Generation</span>
+          <span class="pill">B2C Marketing</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 4</span>
+      <h2>B2B SaaS &ndash; Accounting/Tax Service</h2>
+      <span class="project-role">Digital Ads Manager</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">~79</div><div class="stat-label">Sign-ups in 30 days</div></div>
+        <div class="stat"><div class="stat-num">$53&ndash;$100</div><div class="stat-label">CPA range</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Managed Meta Ads for a B2B tax/accounting platform, focusing on acquiring high-intent business users. Built and tested multiple audience segments (lookalikes, interests, retargeting) and continuously optimized creatives and budget allocation based on performance.</p>
+        <h3>Results</h3>
+        <p>Generated ~79 sign-ups in 30 days with CPAs ranging from $53&ndash;$100. In a high-friction B2B space with long decision cycles, this reflects strong efficiency, especially given the high lifetime value of each acquired user.</p>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">Facebook Ad Campaign</span>
+          <span class="pill">Facebook Ads Manager</span>
+          <span class="pill">Meta Pixel</span>
+          <span class="pill">Digital Marketing Management</span>
+          <span class="pill">Social Media Advertising</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 5</span>
+      <h2>E-Commerce TikTok Ads &amp; High-ROAS Scaling</h2>
+      <span class="project-role">Ads Manager for E-Commerce</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">3.89</div><div class="stat-label">Overall ROAS</div></div>
+        <div class="stat"><div class="stat-num">11.87</div><div class="stat-label">Lookalike audience ROAS</div></div>
+        <div class="stat"><div class="stat-num">19.76</div><div class="stat-label">Retargeting ROAS</div></div>
+        <div class="stat"><div class="stat-num">&pound;3,807.95</div><div class="stat-label">Purchase value from &pound;977.91 spend</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Managed paid social strategy and TikTok Ads scaling for a UK-based soccer apparel e-commerce store. Focused on structuring granular audience targeting and retargeting flows to capture high-intent football fans and drive profitable online sales.</p>
+        <h3>Key campaign highlights</h3>
+        <ul>
+          <li><strong>Account performance:</strong> Achieved a 3.89 overall ROAS, generating &pound;3,807.95 in purchase value from &pound;977.91 ad spend.</li>
+          <li><strong>Audience targeting:</strong> Scaled Lookalike audiences to an 11.87 ROAS (&pound;1,644.15 revenue at &pound;6.02 CPA).</li>
+          <li><strong>Retargeting efficiency:</strong> Mid-funnel retargeting achieved a 19.76 ROAS with a &pound;2.42 CPA per purchase.</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">TikTok Ad</span>
+          <span class="pill">Social Media Ad Campaign</span>
+          <span class="pill">Digital Marketing</span>
+          <span class="pill">Digital Ad Campaign</span>
+          <span class="pill">Digital Advertising</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 6</span>
+      <h2>E-Commerce Store Launch &amp; High-ROAS Google Ads Scaling</h2>
+      <span class="project-role">Digital Ads Expert for E-Commerce</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">16.97</div><div class="stat-label">Overall account ROAS</div></div>
+        <div class="stat"><div class="stat-num">97+</div><div class="stat-label">Orders</div></div>
+        <div class="stat"><div class="stat-num">TRY 270,592</div><div class="stat-label">Conversion value from TRY 15,943 spend</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Built an e-commerce store from scratch on Shopify for a supplement brand, configuring end-to-end tracking before scaling profitability across Google Ads.</p>
+        <h3>Strategy &amp; execution</h3>
+        <ul>
+          <li><strong>Store setup:</strong> Built the store structure, configured catalog feeds, and implemented web analytics tracking.</li>
+          <li><strong>Growth strategy:</strong> Combined high-intent Google Search, targeted Performance Max, and remarketing campaigns to capture active buyers.</li>
+        </ul>
+        <h3>Account performance (snapshot)</h3>
+        <ul>
+          <li>Achieved a 16.97 overall account ROAS, generating TRY 270,592.01 in conversion value from TRY 15,943.21 in total spend across 97+ orders.</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">Shopify Marketing</span>
+          <span class="pill">Google Ads</span>
+          <span class="pill">Search Engine Marketing</span>
+          <span class="pill">Performance Marketing</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="project">
+      <span class="project-num">Project 7</span>
+      <h2>Mobile App User Acquisition &amp; Scaling</h2>
+      <span class="project-role">Digital Ads Expert</span>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">847,800+</div><div class="stat-label">Google Ads installs at $0.45 CPI</div></div>
+        <div class="stat"><div class="stat-num">307,800+</div><div class="stat-label">TikTok Ads installs at $0.75 CPI</div></div>
+        <div class="stat"><div class="stat-num">$0.27</div><div class="stat-label">Lowest CPI on top international campaigns</div></div>
+      </div>
+      <div class="project-body">
+        <h3>Project description</h3>
+        <p>Scaled global app installs for a consumer mobile application starting from early-stage campaign setup. Built the foundational tracking infrastructure and launched multi-market campaigns across Google Ads, TikTok Ads, Snapchat and more, focused on driving user volume and optimizing CPI.</p>
+        <h3>TikTok Ads (snapshot)</h3>
+        <ul>
+          <li>307,800+ total app installs generated at a $0.75 CPI and $0.07 destination CPC across primary markets.</li>
+        </ul>
+        <h3>Google Ads (snapshot)</h3>
+        <ul>
+          <li>847,800+ total app installs driven at a $0.45 CPI ($0.23 avg CPC), with top international campaigns achieving CPIs as low as $0.27.</li>
+        </ul>
+        <h3>Skills and deliverables</h3>
+        <div class="pill-list">
+          <span class="pill">Social Media Ad Campaign</span>
+          <span class="pill">Social Media Advertising</span>
+          <span class="pill">Google Ad Manager</span>
+          <span class="pill">Google Ads</span>
+        </div>
+      </div>
+    </article>
+
+    <div class="bottom-back">
+      <a class="btn" href="me.html">&larr; Back to home</a>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div>&copy; 2026 Hasan Alomari. Based in Ankara, Turkey.</div>
+</footer>
+
+<script>
+  (function(){
+    var btn=document.querySelector('.nav-toggle'),links=document.getElementById('nav-links');
+    function setOpen(o){links.classList.toggle('open',o);btn.setAttribute('aria-expanded',o);}
+    btn.addEventListener('click',function(){setOpen(!links.classList.contains('open'));});
+    links.addEventListener('click',function(e){if(e.target.tagName==='A')setOpen(false);});
+    window.addEventListener('resize',function(){if(window.innerWidth>820)setOpen(false);});
+  })();
+</script>
+</body>
+</html>
