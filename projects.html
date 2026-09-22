@@ -61,9 +61,13 @@
     color:#fff;display:flex;align-items:center;justify-content:center;
     font-family:'Inter',sans-serif;font-weight:700;font-size:13px;
   }
-  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500;color:var(--muted);}
+  .nav-links{display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;color:var(--muted);}
   .nav-links a{text-decoration:none;transition:color .15s;}
   .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-links a.nav-cta{
+    padding:9px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;
+  }
+  .nav-links a.nav-cta:hover{background:#2560d4;color:#fff;}
   .nav-toggle{
     display:none;width:40px;height:40px;padding:0;margin-right:-8px;
     background:none;border:0;cursor:pointer;
@@ -129,12 +133,23 @@
     background:var(--paper-2);border:1px solid var(--line);color:var(--ink);
   }
 
-  .bottom-back{text-align:center;margin-top:48px;}
   .btn{
     display:inline-block;font-size:14.5px;font-weight:600;text-decoration:none;
     padding:12px 22px;border-radius:10px;background:var(--accent);color:#fff;transition:background .15s;
   }
   .btn:hover{background:#2560d4;}
+  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.25);color:#fff;}
+  .btn.ghost:hover{background:rgba(255,255,255,0.08);}
+
+  /* CTA */
+  .cta-box{
+    margin-top:48px;
+    background:var(--navy-2);color:#fff;border-radius:18px;padding:44px 40px;
+    display:flex;align-items:center;justify-content:space-between;gap:32px;
+  }
+  .cta-box h2{font-size:26px;font-weight:600;color:#fff;}
+  .cta-box p{margin-top:10px;font-size:15px;line-height:1.7;color:rgba(255,255,255,0.6);max-width:480px;}
+  .cta-actions{display:flex;flex-wrap:wrap;gap:12px;flex-shrink:0;}
 
   footer{
     background:var(--navy);color:rgba(255,255,255,0.5);
@@ -152,10 +167,15 @@
     .nav-links.open{display:flex;}
     .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);}
     .nav-links a:last-child{border-bottom:0;}
+    .nav-links a.nav-cta{
+      margin:10px 0 4px;padding:10px 16px;border-radius:8px;border-bottom:0;
+      background:var(--accent);color:#fff;text-align:center;
+    }
     .page-head{padding:52px 0 48px;}
     .page-head h1{font-size:32px;}
     .project{padding:26px 22px;}
     .project h2{font-size:22px;}
+    .cta-box{flex-direction:column;align-items:flex-start;padding:32px 24px;}
   }
 </style>
 </head>
@@ -171,6 +191,7 @@
       <a href="experience.html">Experience</a>
       <a class="active" href="projects.html">Projects</a>
       <a href="testimonials.html">Testimonials</a>
+      <a class="nav-cta" href="https://www.upwork.com/freelancers/~01df2e5f09631ceeae" target="_blank" rel="noopener">Hire me</a>
     </div>
     <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
@@ -396,8 +417,15 @@
       </div>
     </article>
 
-    <div class="bottom-back">
-      <a class="btn" href="index.html">&larr; Back to home</a>
+    <div class="cta-box">
+      <div>
+        <h2>Like what you see?</h2>
+        <p>Let's talk about your campaigns, your tracking, and what a positive ROI looks like for your business.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn" href="https://www.upwork.com/freelancers/~01df2e5f09631ceeae" target="_blank" rel="noopener">Hire me on Upwork</a>
+        <a class="btn ghost" href="index.html">Back to home</a>
+      </div>
     </div>
 
   </div>

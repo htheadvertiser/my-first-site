@@ -62,9 +62,13 @@
     color:#fff;display:flex;align-items:center;justify-content:center;
     font-family:'Inter',sans-serif;font-weight:700;font-size:13px;
   }
-  .nav-links{display:flex;gap:32px;font-size:14px;font-weight:500;color:var(--muted);}
+  .nav-links{display:flex;align-items:center;gap:32px;font-size:14px;font-weight:500;color:var(--muted);}
   .nav-links a{text-decoration:none;transition:color .15s;}
   .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+  .nav-links a.nav-cta{
+    padding:9px 16px;border-radius:8px;background:var(--accent);color:#fff;font-weight:600;
+  }
+  .nav-links a.nav-cta:hover{background:#2560d4;color:#fff;}
   .nav-toggle{
     display:none;width:40px;height:40px;padding:0;margin-right:-8px;
     background:none;border:0;cursor:pointer;
@@ -164,6 +168,10 @@
     .nav-links.open{display:flex;}
     .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);}
     .nav-links a:last-child{border-bottom:0;}
+    .nav-links a.nav-cta{
+      margin:10px 0 4px;padding:10px 16px;border-radius:8px;border-bottom:0;
+      background:var(--accent);color:#fff;text-align:center;
+    }
     .page-head{padding:52px 0 0;}
     .page-head h1{font-size:32px;}
     .stat-strip{margin-top:40px;}
@@ -191,6 +199,7 @@
       <a href="experience.html">Experience</a>
       <a href="projects.html">Projects</a>
       <a class="active" href="testimonials.html">Testimonials</a>
+      <a class="nav-cta" href="https://www.upwork.com/freelancers/~01df2e5f09631ceeae" target="_blank" rel="noopener">Hire me</a>
     </div>
     <button class="nav-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
@@ -303,8 +312,8 @@
         <p>Detailed write-ups of campaigns I've run, with the numbers behind each one.</p>
       </div>
       <div class="cta-actions">
-        <a class="btn" href="projects.html">View projects &rarr;</a>
-        <a class="btn ghost" href="experience.html">See experience</a>
+        <a class="btn" href="https://www.upwork.com/freelancers/~01df2e5f09631ceeae" target="_blank" rel="noopener">Let's connect</a>
+        <a class="btn ghost" href="projects.html">View projects</a>
       </div>
     </div>
   </div>
