@@ -18,6 +18,7 @@
     --muted:#5b6478;
     --accent:#2f6fed;
     --accent-2:#12b3a8;
+    --glow:rgba(47,111,237,0.45);
     --white:#ffffff;
   }
   *{box-sizing:border-box;}
@@ -151,6 +152,25 @@
   .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.25);}
   .btn.ghost:hover{background:rgba(255,255,255,0.08);}
 
+  /* Hover polish: hire buttons lift + glow, nav links get a sliding underline, "more" arrows nudge */
+  .btn,.more-link,.nav-links a.nav-cta{transition:background .15s,transform .2s,box-shadow .2s;}
+  .nav-links a:not(.nav-cta){position:relative;}
+  .nav-links a:not(.nav-cta)::after{
+    content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;
+    background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease;
+  }
+  .nav-links a.active::after{transform:scaleX(1);}
+  .more-link .arrow{display:inline-block;transition:transform .2s ease;}
+  @media (hover:hover){
+    .btn:not(.ghost):hover,.nav-links a.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px var(--glow);}
+    .nav-links a:not(.nav-cta):hover::after{transform:scaleX(1);}
+    .more-link:hover .arrow{transform:translateX(4px);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .btn,.more-link,.nav-links a,.nav-links a::after,.more-link .arrow{transition:none;}
+    .btn:not(.ghost):hover,.nav-links a.nav-cta:hover,.more-link:hover .arrow{transform:none;}
+  }
+
   footer{
     background:var(--navy);color:rgba(255,255,255,0.5);
     padding:40px 0;text-align:center;font-size:13.5px;
@@ -168,6 +188,7 @@
     .nav-links.open{display:flex;}
     .nav-links a{padding:14px 0;border-bottom:1px solid var(--line);}
     .nav-links a:last-child{border-bottom:0;}
+    .nav-links a:not(.nav-cta)::after{display:none;}
     .nav-links a.nav-cta{
       margin:10px 0 4px;padding:10px 16px;border-radius:8px;border-bottom:0;
       background:var(--accent);color:#fff;text-align:center;
