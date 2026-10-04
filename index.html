@@ -91,18 +91,22 @@
     padding:0;
     overflow:hidden;
   }
-  .hero-bg{
-    position:absolute;inset:0;
-    background-image:url('BlurredBG.png');
-    background-size:cover;
-    background-position:center 20%;
-    filter:blur(28px) saturate(1.1);
-    transform:scale(1.15);
-    opacity:0.35;
+  /* Drifting color blobs (palette taken from the profile photo); moved by the script at the bottom */
+  .hero-bg{position:absolute;inset:0;overflow:hidden;}
+  .blob{
+    position:absolute;left:0;top:0;
+    width:var(--size);height:var(--size);
+    margin:calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+    border-radius:50%;
+    background:radial-gradient(circle, var(--c) 0%, transparent 68%);
+    opacity:0.6;
+    will-change:transform;
+    transition-property:transform;
+    transition-timing-function:ease-in-out;
   }
   .hero-overlay{
     position:absolute;inset:0;
-    background:linear-gradient(180deg, rgba(11,18,32,0.55) 0%, rgba(11,18,32,0.88) 55%, var(--navy) 100%);
+    background:linear-gradient(180deg, rgba(11,18,32,0.35) 0%, rgba(11,18,32,0.6) 60%, rgba(11,18,32,0.88) 100%);
   }
   .hero-inner{
     position:relative;z-index:1;
@@ -299,7 +303,13 @@
 </nav>
 
 <header class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-bg" aria-hidden="true">
+    <span class="blob" style="--c:#c2412b;--size:620px"></span>
+    <span class="blob" style="--c:#d9822b;--size:520px"></span>
+    <span class="blob" style="--c:#8f3a2a;--size:700px"></span>
+    <span class="blob" style="--c:#b8566a;--size:480px"></span>
+    <span class="blob" style="--c:#2f6fed;--size:560px"></span>
+  </div>
   <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div>
@@ -561,6 +571,25 @@
     btn.addEventListener('click',function(){setOpen(!links.classList.contains('open'));});
     links.addEventListener('click',function(e){if(e.target.tagName==='A')setOpen(false);});
     window.addEventListener('resize',function(){if(window.innerWidth>820)setOpen(false);});
+  })();
+
+  // Hero background: each blob glides to a random spot, then picks a new one
+  (function(){
+    var hero=document.querySelector('.hero');
+    var blobs=hero.querySelectorAll('.blob');
+    var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function move(b,instant){
+      var x=Math.random()*hero.offsetWidth,y=Math.random()*hero.offsetHeight;
+      var dur=instant?0:4.5+Math.random()*3.5;
+      b.style.transitionDuration=dur+'s';
+      b.style.transform='translate('+x+'px,'+y+'px) scale('+(0.8+Math.random()*0.5)+')';
+    }
+    blobs.forEach(function(b){
+      move(b,true);
+      if(still)return;
+      b.addEventListener('transitionend',function(){move(b);});
+      setTimeout(function(){move(b);},50);
+    });
   })();
 </script>
 </body>
