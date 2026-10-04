@@ -213,7 +213,11 @@
   .section-head{margin-bottom:44px;max-width:640px;}
   .section-tag{
     font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:12px;display:block;
+    color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:10px;
+  }
+  .section-tag::before{
+    content:"";width:22px;height:2px;border-radius:2px;flex-shrink:0;
+    background:#d9822b;transform-origin:left;
   }
   .section-head h2{font-size:32px;font-weight:600;color:var(--ink);}
   .about-text{font-size:16.5px;line-height:1.85;color:var(--muted);max-width:700px;}
@@ -276,6 +280,65 @@
   }
   .quote-featured p{font-family:'Fraunces',serif;font-size:21px;line-height:1.6;font-weight:500;}
   .quote-featured .who{margin-top:20px;font-size:14px;color:rgba(255,255,255,0.55);font-family:'Inter',sans-serif;font-weight:500;}
+  .quote-stack .quote-featured{display:flex;flex-direction:column;justify-content:space-between;}
+
+  /* SCROLL ANIMATIONS: only when <html> has .motion (set in <head> unless reduced motion is on).
+     The script at the bottom adds .in to blocks as they scroll into view and drives the
+     timeline line and the testimonial stack from the scroll position. */
+  .motion .section-head > *{
+    opacity:0;transform:translateY(14px);
+    transition:opacity .6s ease,transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .motion .section-head > h2{transition-delay:.08s;}
+  .motion .section-tag::before{transform:scaleX(0);transition:transform .6s cubic-bezier(.2,.7,.2,1) .25s;}
+  .motion .section-head.in > *{opacity:1;transform:none;}
+  .motion .section-head.in .section-tag::before{transform:scaleX(1);}
+
+  .motion .pill{
+    opacity:0;transform:scale(.9);
+    transition:opacity .3s ease var(--d,0s),transform .45s cubic-bezier(.34,1.56,.64,1) var(--d,0s);
+  }
+  .motion .skill-cols.in .pill{opacity:1;transform:none;}
+
+  .timeline{position:relative;}
+  .tl-line{
+    position:absolute;left:0;top:0;bottom:0;width:2px;border-radius:2px;
+    background:linear-gradient(var(--accent),var(--accent-2));
+    transform-origin:top;transform:scaleY(0);
+  }
+  .motion .tl-item{border-left-color:transparent;}
+  .motion .tl-item::before{transform:scale(0);transition:transform .45s cubic-bezier(.34,1.56,.64,1);}
+  .motion .tl-item > *{
+    opacity:0;transform:translateX(-20px);
+    transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1);
+  }
+  .motion .tl-item > :nth-child(2){transition-delay:.06s;}
+  .motion .tl-item > :nth-child(3){transition-delay:.12s;}
+  .motion .tl-item > :nth-child(4){transition-delay:.18s;}
+  .motion .tl-item.in::before{transform:scale(1);}
+  .motion .tl-item.in > *{opacity:1;transform:none;}
+
+  /* Testimonials: heading, card deck and button pin together, centred in the screen, while the
+     cards cycle (deck height, card height and pin offset are set by the script) */
+  .motion .quote-stage{position:sticky;}
+  .motion .quote-deck{position:relative;}
+  @media (min-width:821px){
+    .motion .quote-deck{max-width:640px;margin:0 auto;}
+    .motion .quote-stage .section-head{text-align:center;margin-left:auto;margin-right:auto;}
+    .motion .quote-stage .section-tag{justify-content:center;}
+    .motion .quote-stage .about-more{text-align:center;}
+  }
+  .motion .quote-deck .quote-featured{
+    position:absolute;left:0;right:0;top:50%;margin:0 !important;
+    transform-origin:50% 50%;will-change:transform,opacity;
+    box-shadow:0 18px 40px rgba(11,18,32,0.18);
+  }
+  /* Far-away cards are washed out with a page-coloured veil rather than made see-through,
+     so overlapping cards never show each other's text */
+  .motion .quote-deck .quote-featured::after{
+    content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+    background:var(--paper);opacity:var(--fade,0);
+  }
 
   /* CREDENTIALS */
   .cred-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
@@ -334,6 +397,9 @@
     .hero h1{font-size:32px;}
   }
 </style>
+<script>
+  if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion');
+</script>
 </head>
 <body>
 
@@ -553,11 +619,13 @@
 
 <section id="testimonials">
   <div class="wrap">
+    <div class="quote-stack"><div class="quote-stage">
     <div class="section-head">
       <span class="section-tag">Testimonials</span>
       <h2>What clients say</h2>
     </div>
 
+    <div class="quote-deck">
     <div class="quote-featured">
       <p>"Very professional, quick to complete tasks, supportive and kind."</p>
       <div class="who">Verified Client</div>
@@ -582,7 +650,9 @@
       <p>"Hasan is very hardworking and knowledgeable. He thinks outside the box and comes up with practical solutions. We will definitely hire him again."</p>
       <div class="who">Verified Client</div>
     </div>
+    </div>
     <div class="about-more"><a class="more-link" href="testimonials.html">All testimonials <span class="arrow" aria-hidden="true">&rarr;</span></a></div>
+    </div></div>
   </div>
 </section>
 
@@ -702,6 +772,105 @@
     strip.addEventListener('touchend',release);
     strip.addEventListener('touchcancel',release);
     requestAnimationFrame(tick);
+  })();
+
+  // Scroll animations (skipped entirely when the visitor prefers reduced motion)
+  (function(){
+    if(!document.documentElement.classList.contains('motion'))return;
+    function clamp(v){return v<0?0:v>1?1:v;}
+
+    // One-shot reveals: section headings, and the skill pills rippling in column by column
+    document.querySelectorAll('.skill-col').forEach(function(col,c){
+      col.querySelectorAll('.pill').forEach(function(p,i){p.style.setProperty('--d',(c*0.3+i*0.045).toFixed(3)+'s');});
+    });
+    var targets=document.querySelectorAll('.section-head,.skill-cols');
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(entries){
+        entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+      },{rootMargin:'0px 0px -12% 0px'});
+      targets.forEach(function(t){io.observe(t);});
+    }else targets.forEach(function(t){t.classList.add('in');});
+
+    // Timeline: the line grows down to a point 65% of the way down the screen,
+    // and each job appears once the line reaches its dot
+    var timeline=document.querySelector('.timeline'),items=timeline.querySelectorAll('.tl-item');
+    var line=document.createElement('div');
+    line.className='tl-line';line.setAttribute('aria-hidden','true');
+    timeline.insertBefore(line,timeline.firstChild);
+
+    // Testimonials: the stage pins under the nav while scrolling drives the cards. One card is in
+    // focus at full size; the previous one sits small and faded behind it peeking out above, the
+    // next one peeking out below. Card 1 starts small (far away) and zooms in first, and each card
+    // holds still for a moment at full size so it can be read.
+    var nav=document.querySelector('nav');
+    var stack=document.querySelector('.quote-stack'),stage=stack.querySelector('.quote-stage');
+    var deck=stage.querySelector('.quote-deck');
+    var cards=[].slice.call(deck.querySelectorAll('.quote-featured'));
+    var N=cards.length,FAR=0.72,HOLD=0.4,cardH=1,step=1,pinTop=0;
+    function layout(){
+      var vh=window.innerHeight,navH=nav.offsetHeight;
+      step=vh*0.55; // scroll distance per card
+      cards.forEach(function(c){c.style.minHeight='';});
+      cardH=Math.max.apply(null,cards.map(function(c){return c.offsetHeight;}));
+      var spread=1+0.4*FAR; // deck height / card height: the in-focus card plus the two ~20% peeks
+      if(window.innerWidth>820){
+        // Fuller, less letterboxed cards on desktop, but small enough that heading, deck and button all fit on screen
+        var room=vh-navH-(stage.offsetHeight-deck.offsetHeight)-40;
+        cardH=Math.max(cardH,Math.round(Math.min(deck.offsetWidth*0.6,room/spread)));
+      }
+      cards.forEach(function(c){c.style.minHeight=cardH+'px';});
+      deck.style.height=Math.ceil(cardH*spread)+'px';
+      var stageH=stage.offsetHeight;
+      pinTop=navH+Math.max((vh-navH-stageH)/2,0);
+      stage.style.top=pinTop+'px';
+      stack.style.height=(stageH+(N+0.5)*step)+'px';
+    }
+    function smooth(t){return t*t*(3-2*t);}
+    function lerp(a,b,t){return a+(b-a)*t;}
+    // Scroll position (in steps) -> which card is in focus, as a fraction.
+    // Step 0 zooms card 1 in from far (-1 -> 0); each later step holds, then moves on one card.
+    function focusAt(r){
+      if(r<1)return smooth(r)-1;
+      var i=Math.floor(r-1);
+      if(i>=N-1)return N-1;
+      return i+smooth(clamp((r-1-i-HOLD)/(1-HOLD)));
+    }
+    // d = this card's place relative to the focus: 0 in focus, -1 previous (above), 1 next (below)
+    function pose(d){
+      var a=Math.abs(d),peek=cardH*(0.5-0.3*FAR); // offset that leaves ~20% of a far card showing
+      var s,o=1,y,fade=0.55*Math.min(a,1);
+      if(a<=1){s=lerp(1,FAR,a);y=peek*a;}
+      else{var t=clamp(a-1);s=lerp(FAR,FAR*0.8,t);o=1-t;y=peek+cardH*0.15*t;}
+      return {s:s,o:o,fade:fade,y:d<0?-y:y,z:Math.round(100-a*10)};
+    }
+
+    var ticking=false;
+    function update(){
+      ticking=false;
+      var vh=window.innerHeight;
+
+      var r=timeline.getBoundingClientRect(),fill=Math.min(Math.max(vh*0.65-r.top,0),r.height);
+      line.style.transform='scaleY('+(fill/r.height).toFixed(4)+')';
+      items.forEach(function(it){it.classList.toggle('in',fill>=it.offsetTop+8);});
+
+      var r=Math.min(Math.max((pinTop-stack.getBoundingClientRect().top)/step,0),N+0.5);
+      var f=focusAt(r);
+      cards.forEach(function(c,i){
+        var p=pose(i-f);
+        if(i===0&&f<0)p.y=0; // the opening zoom happens dead centre
+        c.style.transform='translateY('+(p.y-cardH/2).toFixed(1)+'px) scale('+p.s.toFixed(4)+')';
+        c.style.opacity=p.o.toFixed(3);
+        c.style.setProperty('--fade',p.fade.toFixed(3));
+        c.style.zIndex=p.z;
+      });
+    }
+    function request(){if(!ticking){ticking=true;requestAnimationFrame(update);}}
+    function relayout(){layout();request();}
+    window.addEventListener('scroll',request,{passive:true});
+    window.addEventListener('resize',relayout);
+    window.addEventListener('load',relayout);
+    if(document.fonts)document.fonts.ready.then(relayout);
+    layout();update();
   })();
 </script>
 </body>
