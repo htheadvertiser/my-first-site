@@ -147,6 +147,20 @@
   .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.25);color:#fff;}
   .btn.ghost:hover{background:rgba(255,255,255,0.08);}
 
+  /* Hero entrance: text lines fade up one after another, photo fades and scales in */
+  .hero-inner > div > *{animation:hero-rise .7s cubic-bezier(.2,.7,.2,1) both;}
+  .hero-inner > div > :nth-child(2){animation-delay:.08s;}
+  .hero-inner > div > :nth-child(3){animation-delay:.16s;}
+  .hero-inner > div > :nth-child(4){animation-delay:.24s;}
+  .hero-inner > div > :nth-child(5){animation-delay:.32s;}
+  .hero-inner > div > :nth-child(6){animation-delay:.40s;}
+  .hero-photo{animation:hero-pop .9s cubic-bezier(.2,.7,.2,1) both;}
+  @keyframes hero-rise{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+  @keyframes hero-pop{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion:reduce){
+    .hero-inner > div > *,.hero-photo{animation:none;}
+  }
+
   /* Hover polish: hire buttons lift + glow, nav links get a sliding underline, "more" arrows nudge */
   .btn,.more-link,.nav-links a.nav-cta{transition:background .15s,transform .2s,box-shadow .2s;}
   .nav-links a:not(.nav-cta){position:relative;}
@@ -639,6 +653,30 @@
       b.addEventListener('transitionend',function(){move(b);});
       setTimeout(function(){move(b);},50);
     });
+  })();
+
+  // Stats bar numbers count up from 0 on load. Each number's width is locked to its
+  // final size first so the scrolling marquee doesn't shift while digits change.
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var items=[];
+    document.querySelectorAll('.stat-num').forEach(function(el){
+      var m=el.textContent.match(/^([\d.]+)(.*)$/);
+      if(!m)return;
+      el.style.display='inline-block';
+      el.style.minWidth=el.getBoundingClientRect().width+'px';
+      var dec=(m[1].split('.')[1]||'').length;
+      items.push({el:el,to:parseFloat(m[1]),dec:dec,suffix:m[2]});
+      el.textContent=(0).toFixed(dec)+m[2];
+    });
+    var start=null,dur=1600,delay=400;
+    function tick(t){
+      if(start===null)start=t+delay;
+      var p=Math.min(Math.max((t-start)/dur,0),1),e=1-Math.pow(1-p,3);
+      items.forEach(function(it){it.el.textContent=(it.to*e).toFixed(it.dec)+it.suffix;});
+      if(p<1)requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   })();
 
   // Stats bar on touch screens: auto-scrolls, can be dragged either way, resumes on release
