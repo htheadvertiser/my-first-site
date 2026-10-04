@@ -280,7 +280,7 @@
   }
   .quote-featured p{font-family:'Fraunces',serif;font-size:21px;line-height:1.6;font-weight:500;}
   .quote-featured .who{margin-top:20px;font-size:14px;color:rgba(255,255,255,0.55);font-family:'Inter',sans-serif;font-weight:500;}
-  .quote-stack .quote-featured{display:flex;flex-direction:column;justify-content:space-between;}
+  .quote-stack .quote-featured{display:flex;flex-direction:column;justify-content:center;}
 
   /* SCROLL ANIMATIONS: only when <html> has .motion (set in <head> unless reduced motion is on).
      The script at the bottom adds .in to blocks as they scroll into view and drives the
@@ -324,6 +324,7 @@
   .motion .quote-deck{position:relative;}
   @media (min-width:821px){
     .motion .quote-deck{max-width:640px;margin:0 auto;}
+    .motion .quote-deck .quote-featured p{font-size:23px;}
     .motion .quote-stage .section-head{text-align:center;margin-left:auto;margin-right:auto;}
     .motion .quote-stage .section-tag{justify-content:center;}
     .motion .quote-stage .about-more{text-align:center;}
@@ -816,7 +817,7 @@
       if(window.innerWidth>820){
         // Fuller, less letterboxed cards on desktop, but small enough that heading, deck and button all fit on screen
         var room=vh-navH-(stage.offsetHeight-deck.offsetHeight)-40;
-        cardH=Math.max(cardH,Math.round(Math.min(deck.offsetWidth*0.6,room/spread)));
+        cardH=Math.max(cardH,Math.round(Math.min(deck.offsetWidth*0.5,room/spread)));
       }
       cards.forEach(function(c){c.style.minHeight=cardH+'px';});
       deck.style.height=Math.ceil(cardH*spread)+'px';
