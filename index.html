@@ -163,6 +163,9 @@
   @media (prefers-reduced-motion: reduce){
     .stat-track{animation:none;}
   }
+  /* Touch screens: the script below drives the bar so it can be dragged */
+  .stat-strip.touch{touch-action:pan-y;}
+  .stat-strip.touch .stat-track{animation:none;}
   .stat-grid{
     display:flex;flex-shrink:0;gap:72px;
     min-width:100vw;justify-content:space-around;
@@ -615,6 +618,31 @@
       b.addEventListener('transitionend',function(){move(b);});
       setTimeout(function(){move(b);},50);
     });
+  })();
+
+  // Stats bar on touch screens: auto-scrolls, can be dragged either way, resumes on release
+  (function(){
+    if(!window.matchMedia('(hover: none)').matches)return;
+    var strip=document.querySelector('.stat-strip'),track=strip.querySelector('.stat-track');
+    var still=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dur=parseFloat(getComputedStyle(track).animationDuration)||22;
+    strip.classList.add('touch');
+    var pos=0,dragging=false,lastX=0,lastT=null;
+    function render(){
+      var half=track.scrollWidth/2;
+      pos=((pos%half)+half)%half;
+      track.style.transform='translateX('+(-pos)+'px)';
+    }
+    function tick(t){
+      if(lastT!==null&&!dragging&&!still)pos+=track.scrollWidth/2/dur*(t-lastT)/1000;
+      lastT=t;render();requestAnimationFrame(tick);
+    }
+    strip.addEventListener('touchstart',function(e){dragging=true;lastX=e.touches[0].clientX;},{passive:true});
+    strip.addEventListener('touchmove',function(e){var x=e.touches[0].clientX;pos-=x-lastX;lastX=x;},{passive:true});
+    function release(){dragging=false;}
+    strip.addEventListener('touchend',release);
+    strip.addEventListener('touchcancel',release);
+    requestAnimationFrame(tick);
   })();
 </script>
 </body>
