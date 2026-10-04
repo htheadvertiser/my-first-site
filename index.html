@@ -150,11 +150,25 @@
     position:relative;z-index:1;
     border-top:1px solid rgba(255,255,255,0.08);
     background:rgba(255,255,255,0.02);
+    overflow:hidden;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+    mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  }
+  .stat-track{
+    display:flex;width:max-content;
+    animation:stat-scroll 30s linear infinite;
+  }
+  .stat-strip:hover .stat-track{animation-play-state:paused;}
+  @keyframes stat-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion: reduce){
+    .stat-track{animation:none;}
   }
   .stat-grid{
-    max-width:1080px;margin:0 auto;padding:32px;
-    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    display:flex;flex-shrink:0;gap:72px;
+    min-width:100vw;justify-content:space-around;
+    padding:32px 36px;
   }
+  .stat-grid > div{white-space:nowrap;}
   .stat-num{font-family:'Fraunces',serif;font-size:28px;font-weight:600;color:#fff;}
   .stat-label{font-size:12.5px;color:rgba(255,255,255,0.5);margin-top:4px;}
 
@@ -259,7 +273,8 @@
     .badges{justify-content:center;}
     .hero-ctas{justify-content:center;}
     .cta-box{flex-direction:column;align-items:flex-start;padding:32px 24px;}
-    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .stat-grid{gap:48px;padding:32px 24px;}
+    .stat-track{animation-duration:22s;}
     .skill-cols{grid-template-columns:1fr;gap:32px;}
     .work-grid{grid-template-columns:1fr;}
     .cred-grid{grid-template-columns:1fr;}
@@ -331,11 +346,21 @@
     <img class="hero-photo" src="BlurredBG.png" alt="Hasan Alomari">
   </div>
   <div class="stat-strip">
-    <div class="stat-grid">
-      <div><div class="stat-num">100%</div><div class="stat-label">Job Success Score</div></div>
-      <div><div class="stat-num">937+</div><div class="stat-label">Hours of Campaigns Managed</div></div>
-      <div><div class="stat-num">6+</div><div class="stat-label">Years in Performance Marketing</div></div>
-      <div><div class="stat-num">3</div><div class="stat-label">Languages Fluent</div></div>
+    <div class="stat-track">
+      <div class="stat-grid">
+        <div><div class="stat-num">100%</div><div class="stat-label">Job Success Score</div></div>
+        <div><div class="stat-num">2.5K+</div><div class="stat-label">Hours of Campaigns Managed</div></div>
+        <div><div class="stat-num">10</div><div class="stat-label">Verified Projects on Upwork</div></div>
+        <div><div class="stat-num">6+</div><div class="stat-label">Years in Performance Marketing</div></div>
+        <div><div class="stat-num">3</div><div class="stat-label">Languages Fluent</div></div>
+      </div>
+      <div class="stat-grid" aria-hidden="true">
+        <div><div class="stat-num">100%</div><div class="stat-label">Job Success Score</div></div>
+        <div><div class="stat-num">2.5K+</div><div class="stat-label">Hours of Campaigns Managed</div></div>
+        <div><div class="stat-num">10</div><div class="stat-label">Verified Projects on Upwork</div></div>
+        <div><div class="stat-num">6+</div><div class="stat-label">Years in Performance Marketing</div></div>
+        <div><div class="stat-num">3</div><div class="stat-label">Languages Fluent</div></div>
+      </div>
     </div>
   </div>
 </header>
